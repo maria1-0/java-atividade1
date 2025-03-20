@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body onload="listar()">
+
+    <h2>Arrays</h2>
+    <label>Informe veiculo que deseja adicionar</label>
+    <input type="text" placeholder="Ex: Corsa" id="carro">
+
+    <!-- Botões de seleção para escolher a posição -->
+    <button onclick="setPosicao('inicio')">Adicionar no Início</button>
+    <button onclick="setPosicao('final')">Adicionar no Final</button>
+    
+    <!-- adicionar na lista -->
+    <button onclick="add()">Inserir</button>
+
+    <hr/>
+    <p>Carro:<span id="garagem"></span></p>
+    <ul>
+        <!-- item inserido via JavaScript -->
+    </ul>
+
+    <script>
+        const cars = ['opala', 'fusca', 'TL'];
+        cars.push('kombi');
+        cars.unshift('motoca');
+
+        // Atualiza a lista 
+        document.getElementById('garagem').innerHTML = cars.toString();
+
+        // Função que lista os itens do array 
+        function listar() {
+            let itemLista = '';
+            for (let index = 0; index < cars.length; index++) {
+                itemLista += '<li>' + cars[index] + '</li>';
+            }
+            document.getElementsByTagName('ul')[0].innerHTML = itemLista;
+        }
+
+        // Variável para controlar a posição do novo item
+        let posicao = 'final';  // Define a posição padrão como 'final'
+
+        // Função que define a posição do novo item
+        function setPosicao(valor) {
+            posicao = valor;  // Atualiza a posição selecionada (início ou final)
+        }
+
+        // Função para adicionar o item na lista
+        function add() {
+            var carro = document.getElementById('carro').value;
+            if (carro.trim() !== "") { // Verifica se o campo não está vazio
+                if (posicao === 'inicio') {
+                    cars.unshift(carro);  // Adiciona no início da lista
+                } else {
+                    cars.push(carro);  // Adiciona no final da lista
+                }
+                document.getElementById('garagem').innerHTML = cars.toString();
+                listar();  // Atualiza a lista na página
+
+                // Limpa o campo de entrada após adicionar o item
+                document.getElementById('carro').value = '';
+            } else {
+                alert("Por favor, informe um veículo!");
+            }
+        }
+    </script>
+</body>
+</html>
+
