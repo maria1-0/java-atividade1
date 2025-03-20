@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
+            background-color: #c8c8e9;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -16,7 +16,7 @@
         }
 
         .calculator {
-            background-color: #fff;
+            background-color: #ededf0;
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
@@ -44,21 +44,30 @@
             margin-top: 20px;
         }
 
-        .underweight {
+        .Abaixodopeso {
             color: #0088cc;
         }
 
-        .normal-weight {
+        .Pesonormal {
             color: #32cd32;
         }
 
-        .overweight {
-            color: #ff6347;
+        .Sobrepeso {
+            color: #ffed47;
         }
 
-        .obesity {
+        .Obesidadedegrau1 {
+            color: #f88b32;
+        }
+
+        .Obesidadedegrau2 {
+            color: #db3c27;
+        }
+
+        .Obesidadedegrau3 {
             color: #b22222;
         }
+
     </style>
 </head>
 <body>
@@ -76,7 +85,7 @@
 
 <script>
     function calcularIMC() {
-        // Obtém os valores de peso e altura
+        // valores de peso e altura
         var peso = parseFloat(document.getElementById("peso").value);
         var altura = parseFloat(document.getElementById("altura").value);
 
@@ -86,25 +95,31 @@
             return;
         }
 
-        // Calcula o IMC
+        // IMC
         var imc = peso / (altura * altura);
         var resultado = document.getElementById("resultado");
 
         // Determina a categoria de peso e aplica a cor correspondente
         if (imc < 18.5) {
             resultado.textContent = `Seu IMC é ${imc.toFixed(2)} - Abaixo do peso`;
-            resultado.className = "result underweight";
+            resultado.className = "result Abaixodopeso";
         } else if (imc >= 18.5 && imc < 24.9) {
             resultado.textContent = `Seu IMC é ${imc.toFixed(2)} - Peso normal`;
-            resultado.className = "result normal-weight";
+            resultado.className = "result Pesonormal";
         } else if (imc >= 25 && imc < 29.9) {
             resultado.textContent = `Seu IMC é ${imc.toFixed(2)} - Sobrepeso`;
-            resultado.className = "result overweight";
-        } else {
-            resultado.textContent = `Seu IMC é ${imc.toFixed(2)} - Obesidade`;
-            resultado.className = "result obesity";
-        }
+            resultado.className = "result Sobrepeso";
+        } else if (imc >= 30 && imc < 34.9) {
+            resultado.textContent = `Seu IMC é ${imc.toFixed(2)} - Obesidade grau 1`;
+            resultado.className = "result Obesidadegrau1";    
+        } else if (imc >= 35 && imc < 39.9) {
+            resultado.textContent = `Seu IMC é ${imc.toFixed(2)} - Obesidade grau 2`;
+            resultado.className = "result Obesidadegrau2";
+        } else 
+            resultado.textContent = `Seu IMC é ${imc.toFixed(2)} - Obesidade  grau 3`;
+            resultado.className = "result Obesidadegrau3";
     }
+    
 </script>
 
 </body>
