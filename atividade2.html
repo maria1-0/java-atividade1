@@ -6,7 +6,7 @@
     <title>Calculadora de IMC</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Times New Roman', Times, serif, sans-serif;
             background-color: #c8c8e9;
             display: flex;
             justify-content: center;
@@ -25,7 +25,7 @@
         }
 
         h1 {
-            color: #333;
+            color: #2e2e2e;
             margin-bottom: 20px;
         }
 
@@ -43,6 +43,7 @@
             font-weight: bold;
             margin-top: 20px;
         }
+        
 
         .Abaixodopeso {
             color: #0088cc;
@@ -53,21 +54,21 @@
         }
 
         .Sobrepeso {
-            color: #ffed47;
+            color: #c9b508;
         }
 
-        .Obesidadedegrau1 {
+        .Obesidadegrau1 {
             color: #f88b32;
         }
 
-        .Obesidadedegrau2 {
+        .Obesidadegrau2 {
             color: #db3c27;
         }
 
-        .Obesidadedegrau3 {
+        .Obesidadegrau3 {
             color: #b22222;
         }
-
+    
     </style>
 </head>
 <body>
@@ -103,10 +104,10 @@
         if (imc < 18.5) {
             resultado.textContent = `Seu IMC é ${imc.toFixed(2)} - Abaixo do peso`;
             resultado.className = "result Abaixodopeso";
-        } else if (imc >= 18.5 && imc < 24.9) {
+        } else if (imc >= 18.5 && imc < 24.8) {
             resultado.textContent = `Seu IMC é ${imc.toFixed(2)} - Peso normal`;
             resultado.className = "result Pesonormal";
-        } else if (imc >= 25 && imc < 29.9) {
+        } else if (imc >= 24.9 && imc < 29.9) {
             resultado.textContent = `Seu IMC é ${imc.toFixed(2)} - Sobrepeso`;
             resultado.className = "result Sobrepeso";
         } else if (imc >= 30 && imc < 34.9) {
@@ -115,9 +116,11 @@
         } else if (imc >= 35 && imc < 39.9) {
             resultado.textContent = `Seu IMC é ${imc.toFixed(2)} - Obesidade grau 2`;
             resultado.className = "result Obesidadegrau2";
-        } else 
-            resultado.textContent = `Seu IMC é ${imc.toFixed(2)} - Obesidade  grau 3`;
+        } else {
+             resultado.textContent = `Seu IMC é ${imc.toFixed(2)} - Obesidade  grau 3`;
             resultado.className = "result Obesidadegrau3";
+        }
+           
     }
     
 </script>
