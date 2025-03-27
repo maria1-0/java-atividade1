@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="executar()">executar promisse</button>
+    <p ide="resultado"></p>
+    <script>
+        let promisse = new Promisse (function(rer,err){
+            let x = 0
+            if (x==0){
+                res('ok tudo certo')
+            }
+            else{
+                err('alles kaput')
+            }
+        })
+            function executar() {
+                promisse.showMessage(data)
+                promisse.showMessage(erro)
+
+        }
+
+        function showMessage(mensagem){
+            document.getElementById('resultado').
+            innerHTML = mensagem
+        }
+
+    </script>
+</body>
+</html>
