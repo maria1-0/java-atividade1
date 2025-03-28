@@ -3,66 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aprendendo Java</title>
+    <title>Calculadora</title>
     <style>
-        button{
-            background-color: rgb(2, 36, 87);
-            border-radius: 15px;
-            color: white;
-            font-family: 'Courier New', Courier, monospace;
-            border: none;
-            margin:15px;
-            padding: 15px;
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
         }
+
+        .calculadora {
+            background-color: #e67272;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #tela {
+            font-size: 32px;
+            text-align: right;
+            padding: 10px;
+            background-color: #eaeaea;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            width: 260px;
+        }
+
+        .botao {
+            font-size: 20px;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .botao:hover {
+            background-color: #ddd;
+        }
+        
     </style>
+
 </head>
-<body>
-   
-    <label>Informe seu nome</label>
-    <input type="text" placeholder="Ex:Maria" id="nome">
-     <label>Informe sua idade</label>
-    <input type="text" placeholder="Ex:18" id="idade">
-     <button onclick="greeting()">Click</button>
-  
-    <p></p>
-    <br/>
-   
-    <button onclick="ola()">Clique aqui</button><!-- acionado ao clicar no botao-->
-   
+<body> 
+    <div class="calculadora"> 
+        <input type="text" id="tela" disabled>
+        <div class="botao">
+            <button onclick="limpa()">C</button>
+            <button onclick="adicionar('7')">7</button>
+            <button onclick="adicionar('8')">8</button>
+            <button onclick="adicionar('9')">9</button>
+            <button onclick="adicionar('4')">4</button>
+            <button onclick="adicionar('5')">5</button>
+            <button onclick="adicionar('6')">6</button>
+            <button onclick="adicionar('1')">1</button>
+            <button onclick="adicionar('2')">2</button>
+            <button onclick="adicionar('3')">3</button>
+
+            <button onclick="adicionar('*')">*</button>
+            <button onclick="adicionar('/')">/</button>
+            <button onclick="adicionar('-')">-</button>
+            <button onclick="adicionar('+')">+</button>
+            <button onclick="resultado('=')">=</button>
+
+
+
+        </div>
+        
+    </div>
     <script>
-        function greeting(){
-        var nomeDigitado = document.getElementById('nome')
-        if(nomeDigitado.value === ''){
-            alert('O nome precisa ser informado')
-            nomeDigitado.focus()
-            return
+        function adicionar(value){
+            document.getElementById('tela').value +=value
         }
-        var paragrafo = document.getElementsByTagName('p')
-       paragrafo[0].innerHTML ='ola '+nomeDigitado.value
-       nomeDigitado.value =''
-}
-/* else{
-    alert('Bem-vindo(a) '+nomeDigitado.value)  
-    }*/
-        function ola(){//sera executado quando for acionado
-        var nome='maria' //variavel
-        alert(nome)//alerta quando inicia o site (print)
-}
-function greeting(){
-            var nomeDigitado = document.getElementById('nome')
-           
-            var idadeDigitada = document.getElementById('idade')
- 
-            if(idadeDigitada.value >= 18){
-                alert('Você é maior de idade '+ nomeDigitado.value)
-                return
-            }else{
-                alert('Você é menor de idade '+ nomeDigitado.value)
-            }
+        function limpa(){
+            document.getElementById('tela').value=''
+        }
+        function resultado(){
+           try{ document.getElementById('tela').value= eval(document.getElementById('tela').value)}
+           catch(erro){
+            alert('Erro')
+            limpa()
+
+           }
         }
     </script>
- 
-   
-   
+    
 </body>
 </html>
