@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Clientes</title>
+    <link rel="stylesheet" href="final.css">
+    <script>
+        function buscarEndereco() {
+            const cep = document.getElementById("cep").value;
+            if (cep.length === 8) {
+                fetch(`https://viacep.com.br/ws/${cep}/json`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (!data.erro) {
+                            document.getElementById("rua").value = data.logradouro;
+                            document.getElementById("bairro").value = data.bairro;
+                            document.getElementById("cidade").value = data.localidade;
+                            document.getElementById("uf").value = data.uf;
+                        } else {
+                            alert("CEP não encontrado.");
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erro na requisição:', error);
+                        alert('Erro ao buscar o CEP.');
+                    });
+            } else {
+                alert("CEP inválido. O CEP deve conter 8 dígitos.");
+            }
+        }
+
+        function salvarCliente(event) {
+            event.preventDefault();
+            const cliente = {
+                nome: document.getElementById("nome").value,
+                email: document.getElementById("email").value,
+                telefone: document.getElementById("fone").value,
+                cep: document.getElementById("cep").value,
+                logradouro: document.getElementById("rua").value,
+                bairro: document.getElementById("bairro").value,
+                cidade: document.getElementById("cidade").value,
+                uf: document.getElementById("uf").value
+            };
+            let clientes = JSON.parse(localStorage.getItem("clientes")) || [];
+            clientes.push(cliente);
+            localStorage.setItem("clientes", JSON.stringify(clientes));
+            
+            alert("Cliente cadastrado com sucesso!");
+            document.getElementById("clienteForm").reset();
+        }
+    </script>
+</head>
+<body>
+    <h2>Cadastro de Cliente</h2>
+    <form id="clienteForm" onsubmit="salvarCliente(event)">
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome" required><br><br>
+
+        <label for="email">E-mail:</label>
+        <input type="email" id="email" name="email" required><br><br>
+
+        <label for="fone">Telefone:</label>
+        <input type="tel" id="fone" name="fone" required><br><br>
+
+        <h3>Endereço</h3>
+        <label for="cep">CEP:</label>
+        <input type="text" id="cep" name="cep" maxlength="8" onblur="buscarEndereco()" required><br><br>
+
+        <label for="rua">Rua:</label>
+        <input type="text" id="rua" name="logradouro" required><br><br>
+
+        <label for="bairro">Bairro:</label>
+        <input type="text" id="bairro" name="bairro" required><br><br>
+
+        <label for="cidade">Cidade:</label>
+        <input type="text" id="cidade" name="cidade" required><br><br>
+
+        <label for="uf">Estado (UF):</label>
+        <input type="text" id="uf" name="uf" required><br><br>
+
+        <button type="submit">Cadastrar</button>
+        <a href="clientes.html">Ver Clientes</a>
+    </form>
+</body>
+</html>

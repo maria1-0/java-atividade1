@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Clientes</title>
+    <link rel="stylesheet" href="final.css">
+    <script>
+        function carregarClientes() {
+            let clientes = JSON.parse(localStorage.getItem("clientes")) || [];
+            const tabela = document.getElementById("tabelaClientes");
+            tabela.innerHTML = "<tr><th>Nome</th><th>Email</th><th>Telefone</th><th>Ações</th></tr>";
+            
+            clientes.forEach((cliente, index) => {
+                let linha = tabela.insertRow();
+                linha.insertCell(0).textContent = cliente.nome;
+                linha.insertCell(1).textContent = cliente.email;
+                linha.insertCell(2).textContent = cliente.telefone;
+                let acoes = linha.insertCell(3);
+                
+                let btnEditar = document.createElement("button");
+                btnEditar.textContent = "Editar";
+                btnEditar.onclick = () => editarCliente(index);
+                
+                let btnExcluir = document.createElement("button");
+                btnExcluir.textContent = "Excluir";
+                btnExcluir.onclick = () => excluirCliente(index);
+                
+                acoes.appendChild(btnEditar);
+                acoes.appendChild(btnExcluir);
+            });
+        }
+        
+        function excluirCliente(index) {
+            let clientes = JSON.parse(localStorage.getItem("clientes")) || [];
+            clientes.splice(index, 1);
+            localStorage.setItem("clientes", JSON.stringify(clientes));
+            carregarClientes();
+        }
+        
+        function editarCliente(index) {
+            let clientes = JSON.parse(localStorage.getItem("clientes")) || [];
+            let cliente = clientes[index];
+            
+            let nome = prompt("Nome:", cliente.nome);
+            let email = prompt("E-mail:", cliente.email);
+            let telefone = prompt("Telefone:", cliente.telefone);
+            
+            if (nome && email && telefone) {
+                clientes[index] = { ...cliente, nome, email, telefone };
+                localStorage.setItem("clientes", JSON.stringify(clientes));
+                carregarClientes();
+            }
+        }
+        
+        window.onload = carregarClientes;
+    </script>
+</head>
+<body>
+    <h2>Lista de Clientes</h2>
+    <table id="tabelaClientes" border="1">
+        <tr>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Telefone</th>
+            <th>Ações</th>
+        </tr>
+    </table>
+    <br>
+    <a href="modelo.html">Voltar ao Cadastro</a>
+</body>
+</html>
