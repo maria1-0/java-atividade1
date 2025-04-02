@@ -20,7 +20,7 @@
                 
                 let btnEditar = document.createElement("button");
                 btnEditar.textContent = "Editar";
-                btnEditar.onclick = () => editarCliente(index);
+                btnEditar.onclick = () => window.location.href = `trabalhoFinalEditar.html?index=${index}`;
                 
                 let btnExcluir = document.createElement("button");
                 btnExcluir.textContent = "Excluir";
@@ -36,21 +36,6 @@
             clientes.splice(index, 1);
             localStorage.setItem("clientes", JSON.stringify(clientes));
             carregarClientes();
-        }
-        
-        function editarCliente(index) {
-            let clientes = JSON.parse(localStorage.getItem("clientes")) || [];
-            let cliente = clientes[index];
-            
-            let nome = prompt("Nome:", cliente.nome);
-            let email = prompt("E-mail:", cliente.email);
-            let telefone = prompt("Telefone:", cliente.telefone);
-            
-            if (nome && email && telefone) {
-                clientes[index] = { ...cliente, nome, email, telefone };
-                localStorage.setItem("clientes", JSON.stringify(clientes));
-                carregarClientes();
-            }
         }
         
         window.onload = carregarClientes;
