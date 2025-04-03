@@ -9,12 +9,12 @@
         window.onload = function() {
             const params = new URLSearchParams(window.location.search);
             const index = params.get("index");
-            const redirectUrl = params.get("redirect") || "trabalhoFinal.html";
-            
+            const redirectUrl = params.get("redirect") || "trabalhoFinalP2.html";
+
             if (index !== null) {
                 let clientes = JSON.parse(localStorage.getItem("clientes")) || [];
                 let cliente = clientes[index];
-                
+
                 if (cliente) {
                     document.getElementById("nome").value = cliente.nome;
                     document.getElementById("email").value = cliente.email;
@@ -22,38 +22,54 @@
                     document.getElementById("cep").value = cliente.cep;
                     document.getElementById("clienteIndex").value = index;
                     document.getElementById("redirectUrl").value = redirectUrl;
-                    
+
                     buscarEndereco(cliente.cep);
                 }
             }
         };
-        
+
         function buscarEndereco(cep) {
-            if (cep.length === 8) {
-                fetch(`https://viacep.com.br/ws/${cep}/json`)
-                    .then(response => response.json())
-                    .then(data => {
-                        if (!data.erro) {
-                            document.getElementById("rua").value = data.logradouro;
-                            document.getElementById("bairro").value = data.bairro;
-                            document.getElementById("cidade").value = data.localidade;
-                            document.getElementById("uf").value = data.uf;
-                        } else {
-                            alert("CEP não encontrado.");
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Erro na requisição:', error);
-                        alert('Erro ao buscar o CEP.');
-                    });
+            console.log("Buscando CEP:", cep);
+
+            if (!cep || cep.length !== 8 || isNaN(cep)) {
+                alert("CEP inválido! Digite um CEP válido com 8 números.");
+                return;
             }
+
+            fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                .then(response => {
+                    console.log("Status da resposta:", response.status);
+                    if (!response.ok) {
+                        throw new Error("Erro na resposta da API");
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log("Resposta da API:", data);
+
+                    if (data.erro) {
+                        alert("CEP não encontrado.");
+                        return;
+                    }
+
+                    document.getElementById("rua").value = data.logradouro || "";
+                    document.getElementById("bairro").value = data.bairro || "";
+                    document.getElementById("cidade").value = data.localidade || "";
+                    document.getElementById("uf").value = data.uf || "";
+                })
+                .catch(error => {
+                    console.error("Erro ao buscar o CEP:", error);
+                    alert("Erro ao buscar o CEP. Verifique sua conexão e tente novamente.");
+                });
         }
-        
+
         function salvarEdicao() {
             const index = document.getElementById("clienteIndex").value;
             const redirectUrl = document.getElementById("redirectUrl").value;
             let clientes = JSON.parse(localStorage.getItem("clientes")) || [];
-            
+
+            console.log("Antes da edição:", clientes[index]);
+
             if (index !== "" && clientes[index]) {
                 clientes[index] = {
                     nome: document.getElementById("nome").value,
@@ -65,8 +81,11 @@
                     cidade: document.getElementById("cidade").value,
                     uf: document.getElementById("uf").value
                 };
-                
+
+                console.log("Depois da edição:", clientes[index]);
+
                 localStorage.setItem("clientes", JSON.stringify(clientes));
+                
                 alert("Cliente atualizado com sucesso!");
                 window.location.href = redirectUrl;
             }
@@ -78,27 +97,38 @@
     <form onsubmit="event.preventDefault(); salvarEdicao();">
         <input type="hidden" id="clienteIndex">
         <input type="hidden" id="redirectUrl">
+        
         <label for="nome">Nome:</label>
         <input type="text" id="nome" required><br><br>
+        
         <label for="email">Email:</label>
         <input type="email" id="email" required><br><br>
+        
         <label for="telefone">Telefone:</label>
         <input type="text" id="telefone" required><br><br>
+        
         <h3>Endereço</h3>
+        
         <label for="cep">CEP:</label>
-        <input type="text" id="cep" maxlength="8" onblur="buscarEndereco(this.value)" required><br><br>
+        <input type="text" id="cep" maxlength="8" pattern="\d{8}" title="Digite 8 números" onchange="buscarEndereco(this.value)" required><br><br>
+        
         <label for="rua">Rua:</label>
         <input type="text" id="rua" required><br><br>
+        
         <label for="bairro">Bairro:</label>
         <input type="text" id="bairro" required><br><br>
+        
         <label for="cidade">Cidade:</label>
         <input type="text" id="cidade" required><br><br>
+        
         <label for="uf">Estado (UF):</label>
         <input type="text" id="uf" required><br><br>
+        
         <button type="submit">Salvar</button>
     </form>
+    
     <br>
-    <a href="trabalhoFinal2.html">Cancelar</a>
+    <a href="trabalhoFinalP2.html">Cancelar</a>
 </body>
 </html>
 
